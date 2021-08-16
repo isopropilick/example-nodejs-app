@@ -34,11 +34,11 @@ pipeline {
             steps{
                 script {
                     hook = registerWebhook()
-                    echo "${env.JEN_TEST_URL}"
                     def response = httpRequest url:'https://ui.ericpereyra.com/jen/',
                                    customHeaders:[
                                        [ name:'URL', value:"${hook.getURL()}"],
-                                       [ name:'TARGET_URL', value:"${env.DEV_URL}"]
+                                       [ name:'TARGET_URL', value:"test"],
+                                       [ name:'data1', value:"test"]
                                    ]
                     println("Status: "+response.status)
                     data = waitForWebhook hook
