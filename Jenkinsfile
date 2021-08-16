@@ -50,7 +50,7 @@ pipeline {
                                    ], httpMode: 'POST'
                     println("Status: "+response.status)
                     data = waitForWebhook hook
-                    def quit = httpRequest url:"${env.DEV_URL}", httpMode: 'POST'
+                    def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                 }
       }
     )
