@@ -1,12 +1,12 @@
 pipeline {
     agent any
         environment {
-            DEV_URL     = 'dev_url'
-            SATAGE_URL  = 'stage_url'
-            PROD_URL    = 'prod_url'
-            DEV_PORT    = 'dev_port'
-            SATAGE_PORT = 'stage_port'
-            PROD_PORT   = 'prod_port'
+            DEV_URL     = 'https://dev.ericpereyra.com'
+            QA_URL  = 'https://qa.ericpereyra.com/'
+            PROD_URL    = 'https://prod.ericpereyra.com/'
+            DEV_PORT    = '81'
+            QA_PORT = '82'
+            PROD_PORT   = '83'
             JEN_TEST_URL= 'https://ui.ericpereyra.com/jen/'
         }
     stages {
@@ -32,13 +32,17 @@ pipeline {
         }
         stage('Dev e2e Test'){
             steps{
+                sh "npm install"
+                sh "npm run start:dev -- --port ${DEV_PORT}"
                 script {
                     hook = registerWebhook()
-                    def response = httpRequest url:'https://ui.ericpereyra.com/jen/',
+                    def response = httpRequest url:"${env.JEN_TEST_URL}",
                                    customHeaders:[
-                                       [ name:'URL', value:"${hook.getURL()}"],
-                                       [ name:'TargetUrl', value:"${env.DEV_URL}"],
-                                       [ name:'data1', value:"test"]
+                                       [ name:'Returnurl', value:"${hook.getURL()}"],
+                                       [ name:'Testurl', value:"${env.DEV_URL}"],
+                                       [ name:'Buildurl', value:"${env.BUILD_URL}"],
+                                       [ name:'Buildid', value:"${env.BUILD_ID}"],
+                                       [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                    ]
                     println("Status: "+response.status)
                     data = waitForWebhook hook
