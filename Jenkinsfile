@@ -13,7 +13,7 @@ pipeline {
         stage('Clean env') {
             steps{
                 script{
-                    def names = ['ena-dev'.'ena-qa','ena-prod']
+                    def names = ['ena-dev','ena-qa','ena-prod']
                     for (int i = 0; i < names.size(); i++){
                         images = sh(script: "docker images -q test", returnStdout: true).trim()
                         echo "testing :${names[i]}"
