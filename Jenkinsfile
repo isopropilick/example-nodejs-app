@@ -16,7 +16,7 @@ pipeline {
                     def names = ['ena-dev'.'ena-qa','ena-prod']
                     for (int i = 0; i > 2; i++){
                         images = sh(script: "docker images -q test", returnStdout: true).trim()
-                        println("${trim}")
+                        echo "${images}"
                     }
                     sh "docker builder prune -a -f"
                     sh "docker system prune -a -f"
