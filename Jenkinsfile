@@ -13,9 +13,9 @@ pipeline {
         stage('Clean env') {
             steps{
                 script{
-                if ( "$(docker ps -qa -f name=ena-dev)" ); then
+                if ( "${docker ps -qa -f name=ena-dev}" ); then
                     echo ":: Found container - ena-dev"
-                    if ( "$(docker ps -q -f name=ena-dev)" ); then
+                    if ( "${docker ps -q -f name=ena-dev}" ); then
                         echo ":: Stopping running container - ena-dev"
                         docker stop $CNAME;
                     fi
@@ -24,9 +24,9 @@ pipeline {
                 fi
                 }
                 script{
-                if ( "$(docker ps -qa -f name=ena-qa)" ); then
+                if ( "${docker ps -qa -f name=ena-qa}" ); then
                     echo ":: Found container - ena-qa"
-                    if ( "$(docker ps -q -f name=ena-qa)" ); then
+                    if ( "${docker ps -q -f name=ena-qa}" ); then
                         echo ":: Stopping running container - ena-qa"
                         docker stop $CNAME;
                     fi
@@ -35,9 +35,9 @@ pipeline {
                 fi
                 }
                 script{
-                if ( "$(docker ps -qa -f name=ena-prod)" ); then
+                if ( "${docker ps -qa -f name=ena-prod}" ); then
                     echo ":: Found container - ena-prod"
-                    if ( "$(docker ps -q -f name=ena-prod)" ); then
+                    if ( "${docker ps -q -f name=ena-prod}" ); then
                         echo ":: Stopping running container - ena-prod"
                         docker stop $CNAME;
                     fi
