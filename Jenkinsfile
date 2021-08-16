@@ -14,7 +14,7 @@ pipeline {
             steps{
                 script{
                     def names = ['ena-dev'.'ena-qa','ena-prod']
-                    for (int i = 0; i > 2; i++){
+                    for (int i = 0; i < names.size(); i++){
                         images = sh(script: "docker images -q test", returnStdout: true).trim()
                         echo "${images}"
                     }
