@@ -16,7 +16,7 @@ pipeline {
                     def names = ['ena-dev','ena-qa','ena-prod']
                     for (int i = 0; i < names.size(); i++){
                         containers = sh(script: "docker container ls -q -f name=\"${names[i]}\"", returnStdout: true).trim()
-                        if (containers == ''){
+                        if (containers != ''){
                         echo "Container for ${names[i]} found with the ID: ${containers}, removing..."
                         sh 'docker stop ${names[i]}'
                         }else{
