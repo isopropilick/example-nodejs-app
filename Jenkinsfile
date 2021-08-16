@@ -7,7 +7,7 @@ pipeline {
             DEV_PORT    = 'dev_port'
             SATAGE_PORT = 'stage_port'
             PROD_PORT   = 'prod_port'
-            JEN_TEST_URL= 'https://99065421-f33e-4b17-9576-e1b9cb01a687.mock.pstmn.io'
+            JEN_TEST_URL= '\'https://99065421-f33e-4b17-9576-e1b9cb01a687.mock.pstmn.io\''
         }
     stages {
         stage('Build') {
