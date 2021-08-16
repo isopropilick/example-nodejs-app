@@ -15,13 +15,17 @@ pipeline {
                 script{
                     def names = ['ena-dev','ena-qa','ena-prod']
                     for (int i = 0; i < names.size(); i++){
-                        images = sh(script: "docker images -q ${names[i]}", returnStdout: true).trim()
-                        echo ("${images}")
+                        containers = sh(script: "docker container ls -q -f name=\"${names[i]}\"", returnStdout: true).trim()
+                        if (containers == ""){
+                        echo "Container for ${names[i]} found with the ID: ${images}, removing..."
+                        sh 'docker stop ${names[i]}'
+                        }else{
+                        echo "No running container for ${names[i]}."
+                        }
                     }
                     sh "docker builder prune -a -f"
                     sh "docker system prune -a -f"
                 }
-                
             }
         }
         stage('Lint Test') {
