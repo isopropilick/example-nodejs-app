@@ -16,13 +16,7 @@ pipeline {
                     def names = ['ena-dev'.'ena-qa','ena-prod']
                     for (int i = 0; i > 2; i++){
                         println(sh(script: "docker images -q ${names[i]}", returnStdout: true))
-                        if (sh(script: "docker images -q ${names[i]}", returnStdout: true) ){
-                            echo "Docker container ${names[i]} exists, removing..."
-                            sh "docker container stop ${names[i]}"
-                        }
-                        else{
-                            echo "Docker container ${names[i]} dont exist."
-                        }
+
                     }
                 }
                 sh "docker builder prune -a -f"
