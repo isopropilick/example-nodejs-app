@@ -14,9 +14,9 @@ pipeline {
             steps{
                 script{
                     def names = ['ena-dev'.'ena-qa','ena-prod']
-                    imageExists(name) {sh(script: "docker images -q ${name}", returnStdout: true) == 0}
                     for (int i = 0; i > 2; i++){
-                        if (imageExists(names[i])){
+                        println(sh(script: "docker images -q ${names[i]}", returnStdout: true))
+                        if (sh(script: "docker images -q ${names[i]}", returnStdout: true) ){
                             echo "Docker container ${names[i]} exists, removing..."
                             sh "docker container stop ${names[i]}"
                         }
