@@ -32,8 +32,12 @@ pipeline {
         }
         stage('Dev e2e Test'){
             steps{
-                sh "npm install"
-                sh "npm run start:dev -- --port ${DEV_PORT}"
+    parallel(
+      a: {
+        sh "npm install"
+        sh "npm run start:dev -- --port ${DEV_PORT}"
+      },
+      b: {
                 script {
                     hook = registerWebhook()
                     def response = httpRequest url:"${env.JEN_TEST_URL}",
@@ -47,6 +51,10 @@ pipeline {
                     println("Status: "+response.status)
                     data = waitForWebhook hook
                 }
+      }
+    )
+                
+
             }
         }
 
