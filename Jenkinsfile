@@ -37,7 +37,7 @@ pipeline {
                     def response = httpRequest url:'https://ui.ericpereyra.com/jen/',
                                    customHeaders:[
                                        [ name:'URL', value:"${hook.getURL()}"],
-                                       [ name:'TARGET_URL', value:"test"],
+                                       [ name:'TargetUrl', value:"${env.DEV_URL}"],
                                        [ name:'data1', value:"test"]
                                    ]
                     println("Status: "+response.status)
