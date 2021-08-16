@@ -4,9 +4,9 @@ pipeline {
             DEV_URL     = 'https://dev.ericpereyra.com'
             QA_URL  = 'https://qa.ericpereyra.com/'
             PROD_URL    = 'https://prod.ericpereyra.com/'
-            DEV_PORT    = '81'
-            QA_PORT = '82'
-            PROD_PORT   = '83'
+            DEV_PORT    = '8181'
+            QA_PORT = '8182'
+            PROD_PORT   = '8183'
             JEN_TEST_URL= 'https://ui.ericpereyra.com/jen/'
         }
     stages {
