@@ -37,8 +37,8 @@ pipeline {
                     echo "${env.JEN_TEST_URL}"
                     def response = httpRequest 'https://ui.ericpereyra.com/jen/',
                                    customHeaders:[
-                                        [ name: 'URL', value: hook.getURL()],
-                                        [ name: 'TARGET_URL', value: env.DEV_URL]
+                                       [ name: 'URL', value: '${hook.getURL()'],
+                                       [ name: 'TARGET_URL', value:'${env.DEV_URL}']
                                    ]
                     println("Status: "+response.status)
                     data = waitForWebhook hook
