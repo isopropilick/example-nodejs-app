@@ -35,7 +35,7 @@ pipeline {
                 script {
                     hook = registerWebhook()
                     echo "${env.JEN_TEST_URL}"
-                    def response = httpRequest "https://ui.ericpereyra.com/jen/",
+                    def response = httpRequest 'https://ui.ericpereyra.com/jen/',
                                    customHeaders:[
                                         [ name: 'URL', value: hook.getURL()],
                                         [ name: 'TARGET_URL', value: env.DEV_URL]
