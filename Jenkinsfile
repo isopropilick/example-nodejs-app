@@ -12,9 +12,39 @@ pipeline {
     stages {
         stage('Clean env') {
             steps{
-                sh "docker container stop ena-dev"
-                sh "docker container stop ena-qa"
-                sh "docker container stop ena-prod"
+                script{
+                if [ "$(docker ps -qa -f name=ena-dev" ]; then
+                    echo ":: Found container - ena-dev"
+                    if [ "$(docker ps -q -f name=ena-dev" ]; then
+                        echo ":: Stopping running container - ena-dev"
+                        docker stop $CNAME;
+                    fi
+                    echo ":: Removing stopped container - ena-dev"
+                    docker rm $CNAME;
+                fi
+                }
+                script{
+                if [ "$(docker ps -qa -f name=ena-qa" ]; then
+                    echo ":: Found container - ena-qa"
+                    if [ "$(docker ps -q -f name=ena-qa" ]; then
+                        echo ":: Stopping running container - ena-qa"
+                        docker stop $CNAME;
+                    fi
+                    echo ":: Removing stopped container - ena-qa"
+                    docker rm $CNAME;
+                fi
+                }
+                script{
+                if [ "$(docker ps -qa -f name=ena-prod" ]; then
+                    echo ":: Found container - ena-prod"
+                    if [ "$(docker ps -q -f name=ena-prod" ]; then
+                        echo ":: Stopping running container - ena-prod"
+                        docker stop $CNAME;
+                    fi
+                    echo ":: Removing stopped container - ena-prod"
+                    docker rm $CNAME;
+                fi
+                }
                 sh "docker builder prune -a -f"
                 sh "docker system prune -a -f"
             }
