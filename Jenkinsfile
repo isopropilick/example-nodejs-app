@@ -1,7 +1,7 @@
 pipeline {
     agent any
         environment {
-            DEV_URL     = 'https://dev.ericpereyra.com'
+            DEV_URL     = 'https://dev.ericpereyra.com/'
             QA_URL  = 'https://qa.ericpereyra.com/'
             STAGE_URL    = 'https://prod.ericpereyra.com/'
             DEV_PORT    = '8181'
@@ -13,7 +13,7 @@ pipeline {
         stage('Clean env') {
             steps{
                 script{
-                    def names = ['ena-dev','ena-qa','ena-prod']
+                    def names = ['ena-dev','ena-qa','ena-stage']
                     for (int i = 0; i < names.size(); i++){
                         containers = sh(script: "docker container ls -q -f name=\"${names[i]}\"", returnStdout: true).trim()
                         if (containers != ''){
@@ -138,12 +138,12 @@ pipeline {
         }
         stage('QA docker deploy'){
             steps{
-                sh "docker run --name ena-dev -p ${QA_PORT}:8080 -d ena-qa-build"
+                sh "docker run --name ena-qa -p ${QA_PORT}:8080 -d ena-qa-build"
             }
         }
         stage('STAGE / PROD docker deploy'){
             steps{
-                sh "docker run --name ena-dev -p ${STAGE_PORT}:8080 -d ena-stage-build"
+                sh "docker run --name ena-stage -p ${STAGE_PORT}:8080 -d ena-stage-build"
             }
         }
     }
