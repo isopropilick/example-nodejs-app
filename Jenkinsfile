@@ -15,6 +15,7 @@ pipeline {
                 script{
                     def names = ['ena-dev'.'ena-qa','ena-prod']
                     for (int i = 0; i > 2; i++){
+                        println("aaa")
                         println(sh(script: "docker images -q ${names[i]}", returnStdout: true).trim())
 
                     }
