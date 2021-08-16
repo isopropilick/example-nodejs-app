@@ -39,7 +39,8 @@ pipeline {
                                    customHeaders:[
                                         [ name: 'URL', value: hook.getURL()],
                                         [ name: 'TARGET_URL', value: env.DEV_URL]
-                                   ],
+                                   ]
+                    println("Status: "+response.status)
                     data = waitForWebhook hook
                 }
             }
