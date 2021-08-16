@@ -18,9 +18,10 @@ pipeline {
                         images = sh(script: "docker images -q test", returnStdout: true).trim()
                         println("${trim}")
                     }
+                    sh "docker builder prune -a -f"
+                    sh "docker system prune -a -f"
                 }
-                sh "docker builder prune -a -f"
-                sh "docker system prune -a -f"
+                
             }
         }
         stage('Lint Test') {
