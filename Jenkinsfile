@@ -24,6 +24,7 @@ pipeline {
                             echo "Docker container ${names[i]} dont exist."
                         }
                     }
+                }
                 sh "docker builder prune -a -f"
                 sh "docker system prune -a -f"
             }
