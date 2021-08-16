@@ -18,7 +18,7 @@ pipeline {
                         containers = sh(script: "docker container ls -q -f name=\"${names[i]}\"", returnStdout: true).trim()
                         if (containers != ''){
                         echo "Container for ${names[i]} found with the ID: ${containers}, removing..."
-                        sh 'docker stop ${names[i]}'
+                        sh "docker stop ${names[i]}"
                         }else{
                         echo "No running container for ${names[i]}."
                         }
