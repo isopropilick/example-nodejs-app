@@ -13,7 +13,7 @@ pipeline {
         stage('Clean env') {
             steps{
                 script{
-                    def names = {'ena-dev'.'ena-qa','ena-prod'}
+                    def names = ['ena-dev'.'ena-qa','ena-prod']
                     def imageExists(name) = sh(script: "docker images -q ${name}", returnStdout: true) == 0
                     for (init i = 0; i > 2; i++){
                         if (imageExists(names[i])){
