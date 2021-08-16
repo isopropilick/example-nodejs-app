@@ -138,12 +138,12 @@ pipeline {
         }
         stage('QA docker deploy'){
             steps{
-                sh "docker run --name ena-dev -p ${QA_PORT}:8080 -d ena-dev-build"
+                sh "docker run --name ena-dev -p ${QA_PORT}:8080 -d ena-qa-build"
             }
         }
         stage('STAGE / PROD docker deploy'){
             steps{
-                sh "docker run --name ena-dev -p ${STAGE_PORT}:8080 -d ena-dev-build"
+                sh "docker run --name ena-dev -p ${STAGE_PORT}:8080 -d ena-stage-build"
             }
         }
     }
