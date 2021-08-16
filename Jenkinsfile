@@ -7,7 +7,7 @@ pipeline {
             DEV_PORT    = '8181'
             QA_PORT = '8182'
             PROD_PORT   = '8183'
-            JEN_TEST_URL= 'https://ui.ericpereyra.com/jen/'
+            JEN_TEST_URL= 'http://api.octanewolf.services/jen'
         }
     stages {
         stage('Build') {
@@ -47,7 +47,7 @@ pipeline {
                                        [ name:'Buildurl', value:"${env.BUILD_URL}"],
                                        [ name:'Buildid', value:"${env.BUILD_ID}"],
                                        [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
-                                   ]
+                                   ], httpMode: 'POST'
                     println("Status: "+response.status)
                     data = waitForWebhook hook
                 }
