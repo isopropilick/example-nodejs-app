@@ -39,5 +39,9 @@ router.post('/settings', catchErrors(postSettings))
 // Imprint route
 router.get('/imprint', catchErrors(getImprint))
 
-router.post('/quit', function (req, res) { process.exit(0) })
+router.post('/quit', function (req, res) {
+  res.status(200)
+  res.send('Exit command received exiting in 1s.')
+  setTimeout(function () { process.exit(0) }, 1000)
+})
 module.exports = router
