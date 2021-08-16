@@ -13,38 +13,17 @@ pipeline {
         stage('Clean env') {
             steps{
                 script{
-                if ( "${docker ps -qa -f name=ena-dev}" ); then
-                    echo ":: Found container - ena-dev"
-                    if ( "${docker ps -q -f name=ena-dev}" ); then
-                        echo ":: Stopping running container - ena-dev"
-                        docker stop $CNAME;
-                    fi
-                    echo ":: Removing stopped container - ena-dev"
-                    docker rm $CNAME;
-                fi
-                }
-                script{
-                if ( "${docker ps -qa -f name=ena-qa}" ); then
-                    echo ":: Found container - ena-qa"
-                    if ( "${docker ps -q -f name=ena-qa}" ); then
-                        echo ":: Stopping running container - ena-qa"
-                        docker stop $CNAME;
-                    fi
-                    echo ":: Removing stopped container - ena-qa"
-                    docker rm $CNAME;
-                fi
-                }
-                script{
-                if ( "${docker ps -qa -f name=ena-prod}" ); then
-                    echo ":: Found container - ena-prod"
-                    if ( "${docker ps -q -f name=ena-prod}" ); then
-                        echo ":: Stopping running container - ena-prod"
-                        docker stop $CNAME;
-                    fi
-                    echo ":: Removing stopped container - ena-prod"
-                    docker rm $CNAME;
-                fi
-                }
+                    def names = {'ena-dev'.'ena-qa','ena-prod'}
+                    def imageExists(name) = sh(script: "docker images -q ${name}", returnStdout: true) == 0
+                    for (init i = 0; i > 2; i++){
+                        if (imageExists(names[i])){
+                            echo "Docker container ${names[i]} exists, removing..."
+                            sh "docker container stop ${names[i]}"
+                        }
+                        else{
+                            echo "Docker container ${names[i]} dont exist."
+                        }
+                    }
                 sh "docker builder prune -a -f"
                 sh "docker system prune -a -f"
             }
