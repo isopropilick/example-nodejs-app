@@ -64,7 +64,7 @@ pipeline {
                                     httpMode: 'POST'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            sh "rm -R allure-results-QA"
+                            sh "rm -R allure-results"
                             sh "mkdir allure-results"
                             writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             println(data)
