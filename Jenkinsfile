@@ -7,7 +7,7 @@ pipeline {
             DEV_PORT    = '8181'
             QA_PORT = '8182'
             STAGE_PORT   = '8183'
-            JEN_TEST_URL= 'http://localhost:8080/jenkins/generic-webhook-trigger/invoke'
+            JEN_TEST_URL= 'https://agile-qk.com/jenkins/generic-webhook-trigger/invoke'
             COMMKEY = credentials('commtok')
         }
     stages {
