@@ -72,7 +72,7 @@ pipeline {
                             //echo "${keyList}"  // prints out katone
                             def filesmap = [:]
                             for (String key : keyList){
-                                filesmap['${key}'] = root.files."${key}".flatten()
+                                filesmap['${key}'] = root.files."${key}"
                             }
                             println(filesmap)
                             //sh "echo ${jsonObj.age}"   // prints out 5
