@@ -63,7 +63,8 @@ pipeline {
                                     ],
                                     httpMode: 'POST'
                                 println("Status: "+response.status)
-                                data = waitForWebhook webhookToken:hook, withHeaders:true
+                                data = waitForWebhook webhookToken:hook
+                                println(data)
                                 def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                         }
                     }
