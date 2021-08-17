@@ -56,8 +56,6 @@ pipeline {
                     b: {
                         script {
                             hook = registerWebhook()
-                            retry(3) {
-                                sleep 10
                                 def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                     customHeaders:[
                                         [ name:'Returnurl', value:"${hook.getURL()}"],
@@ -67,7 +65,6 @@ pipeline {
                                         [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                                }
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
                             //def root = readJSON text: data
@@ -109,8 +106,6 @@ pipeline {
                     b: {
                         script {
                             hook = registerWebhook()
-                            retry(3) {
-                                sleep 10
                                 def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                     customHeaders:[
                                         [ name:'Returnurl', value:"${hook.getURL()}"],
@@ -120,8 +115,6 @@ pipeline {
                                         [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                                }
-                                println("Status: "+response.status)
                                 data = waitForWebhook hook
                             retry(3) {
                                 sleep 10
@@ -146,8 +139,6 @@ pipeline {
                     b: {
                         script {
                             hook = registerWebhook()
-                            retry(3) {
-                                sleep 10
                                 def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                     customHeaders:[
                                         [ name:'Returnurl', value:"${hook.getURL()}"],
@@ -157,8 +148,6 @@ pipeline {
                                         [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                                }
-                                println("Status: "+response.status)
                                 data = waitForWebhook hook
                             retry(3) {
                                 sleep 10
