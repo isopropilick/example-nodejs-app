@@ -85,7 +85,22 @@ pipeline {
                             //println(data)
                             //sh "ls allure-results"
                             //archiveArtifacts artifacts: 'allure-results/*'
-                            def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
+                            boolean success  = false;
+                            while(!success){
+                                try {
+                                    def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
+                                    if(quit.status=="200"){
+                                        success = true
+                                    }
+                                } catch (SomeException e) {
+                                    if (retries < 6) {
+                                        continue;
+                                    } else {
+                                        throw e;
+                                    }
+                                }
+                            }
+                            
                             //allure([
                             //    includeProperties: false,
                             //    jdk: '',
