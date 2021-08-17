@@ -66,13 +66,6 @@ pipeline {
                                     ],
                                     httpMode: 'POST'
                             data = waitForWebhook webhookToken:hook
-                            def root = readJSON text: data
-                            def keyList = root['files'].keySet()
-                            def filesmap = [:]
-                            for (String key : keyList){
-                                filesmap[key] = root.files."${key}"
-                                writeJSON file: "allure-results/${key}", json:filesmap[key]
-                            }
                             retry(3) {
                                 sleep 10
                                 def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
@@ -80,13 +73,6 @@ pipeline {
                             timeout(time: 1, unit: 'MINUTES') {
                                 println("Pimed-out...")
                             }
-                            allure([
-                                includeProperties: false,
-                                jdk: '',
-                                properties: [],
-                                reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'allure-results']]
-                            ])
                         }
                     }
                 )
