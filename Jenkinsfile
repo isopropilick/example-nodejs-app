@@ -26,6 +26,8 @@ pipeline {
                     }
                     //sh "docker builder prune -a -f"
                     sh "docker system prune -a -f"
+                    sh "rm -f -R allure-results"
+                    sh "mkdir allure-results"
                 }
             }
         }
@@ -53,10 +55,8 @@ pipeline {
                     },
                     b: {
                         script {
-                            token = "${env.COMMKEY}"
-                            //import groovy.json.JsonSlurper
                             hook = registerWebhook()
-                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${token}",
+                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                 customHeaders:[
                                     [ name:'Returnurl', value:"${hook.getURL()}"],
                                     [ name:'Testurl', value:"${env.DEV_URL}"],
@@ -65,11 +65,8 @@ pipeline {
                                     [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                                    //authentication:'commtok'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            //sh "rm -f -R allure-results"
-                            //sh "mkdir allure-results"
                             //def root = readJSON text: data
                             //def keyList = root['files'].keySet()
                             //def filesmap = [:]
@@ -79,12 +76,6 @@ pipeline {
                             //    //println(filesmap[key])
                             //    writeJSON file: "allure-results/${key}", json:filesmap[key]
                             //}
-                            
-                            //sh "echo ${jsonObj.age}"   // prints out 5
-                            //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
-                            //println(data)
-                            //sh "ls allure-results"
-                            //archiveArtifacts artifacts: 'allure-results/*'
                             retry(3) {
                                 sleep 10
                                 def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
@@ -115,7 +106,7 @@ pipeline {
                     b: {
                         script {
                             hook = registerWebhook()
-                            def response = httpRequest url:"${env.JEN_TEST_URL}",
+                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                 customHeaders:[
                                     [ name:'Returnurl', value:"${hook.getURL()}"],
                                     [ name:'Testurl', value:"${env.QA_URL}"],
@@ -126,7 +117,14 @@ pipeline {
                                     httpMode: 'POST'
                                 println("Status: "+response.status)
                                 data = waitForWebhook hook
+                            retry(3) {
+                                sleep 10
                                 def quit = httpRequest url:"${env.QA_URL}/quit", httpMode: 'POST'
+                                println("${quit.status}")
+                            }
+                            timeout(time: 1, unit: 'MINUTES') {
+                                println("Pimed-out...")
+                            }
                         }
                     }
                 )
@@ -142,7 +140,7 @@ pipeline {
                     b: {
                         script {
                             hook = registerWebhook()
-                            def response = httpRequest url:"${env.JEN_TEST_URL}",
+                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                 customHeaders:[
                                     [ name:'Returnurl', value:"${hook.getURL()}"],
                                     [ name:'Testurl', value:"${env.STAGE_URL}"],
@@ -153,7 +151,14 @@ pipeline {
                                     httpMode: 'POST'
                                 println("Status: "+response.status)
                                 data = waitForWebhook hook
+                            retry(3) {
+                                sleep 10
                                 def quit = httpRequest url:"${env.STAGE_URL}/quit", httpMode: 'POST'
+                                println("${quit.status}")
+                            }
+                            timeout(time: 1, unit: 'MINUTES') {
+                                println("Pimed-out...")
+                            }
                         }
                     }
                 )
