@@ -67,31 +67,31 @@ pipeline {
                                     authentication:"${env.COMMKEY}"
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            sh "rm -f -R allure-results"
-                            sh "mkdir allure-results"
-                            def root = readJSON text: data
-                            def keyList = root['files'].keySet()
-                            def filesmap = [:]
+                            //sh "rm -f -R allure-results"
+                            //sh "mkdir allure-results"
+                            //def root = readJSON text: data
+                            //def keyList = root['files'].keySet()
+                            //def filesmap = [:]
                             //println(keyList)
-                            for (String key : keyList){
-                                filesmap[key] = root.files."${key}"
-                                //println(filesmap[key])
-                                writeJSON file: "allure-results/${key}", json:filesmap[key]
-                            }
+                            //for (String key : keyList){
+                            //    filesmap[key] = root.files."${key}"
+                            //    //println(filesmap[key])
+                            //    writeJSON file: "allure-results/${key}", json:filesmap[key]
+                            //}
                             
                             //sh "echo ${jsonObj.age}"   // prints out 5
                             //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             //println(data)
-                            sh "ls allure-results"
-                            archiveArtifacts artifacts: 'allure-results/*'
+                            //sh "ls allure-results"
+                            //archiveArtifacts artifacts: 'allure-results/*'
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
-                            allure([
-                                includeProperties: false,
-                                jdk: '',
-                                properties: [],
-                                reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'allure-results']]
-                            ])
+                            //allure([
+                            //    includeProperties: false,
+                            //    jdk: '',
+                            //    properties: [],
+                            //    reportBuildPolicy: 'ALWAYS',
+                            //    results: [[path: 'allure-results']]
+                            //])
                         }
                     }
                 )
