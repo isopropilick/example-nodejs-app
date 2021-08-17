@@ -64,8 +64,8 @@ pipeline {
                                     httpMode: 'POST'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            //sh "mkdir allure-results-QA"
-                            writeFile file: 'allure-results-QA', text: "${data}"
+                            sh "mkdir allure-results-QA"
+                            writeFile file: 'allure-results-QA/allure-results', text: "${data}"
                             println(data)
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                             allure([
