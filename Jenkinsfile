@@ -68,7 +68,10 @@ pipeline {
                             //sh "mkdir allure-results"
                             def props = readJSON text: data
                             def keyList = props['files'].keySet()  // this is a comparison.  It returns true
-                            echo "${keyList}"  // prints out katone
+                            //echo "${keyList}"  // prints out katone
+                            for (String key : keyList){
+                                echo "${key}"
+                            }
                             //sh "echo ${jsonObj.age}"   // prints out 5
                             //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             println(data)
