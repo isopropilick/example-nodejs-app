@@ -67,7 +67,7 @@ pipeline {
                             data = waitForWebhook webhookToken:hook
                             //sh "rm -R allure-results"
                             //sh "mkdir allure-results"
-                            def root = new JsonSlurper().parseText(data)
+                            def root = new readJSON text: data
                             def keyList = props['files'].keySet()  // this is a comparison.  It returns true
                             //echo "${keyList}"  // prints out katone
                             def filesmap = [:]
