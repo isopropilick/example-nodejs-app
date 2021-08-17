@@ -24,7 +24,7 @@ pipeline {
                         }
                     }
                     //sh "docker builder prune -a -f"
-                    //sh "docker system prune -a -f"
+                    sh "docker system prune -a -f"
                 }
             }
         }
@@ -63,7 +63,7 @@ pipeline {
                                     ],
                                     httpMode: 'POST'
                                 println("Status: "+response.status)
-                                data = waitForWebhook hook
+                                data = waitForWebhook hook, withHeaders :[neme:'test',value:'test']
                                 def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                         }
                     }
