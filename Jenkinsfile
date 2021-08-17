@@ -71,13 +71,15 @@ pipeline {
                             def keyList = root['files'].keySet()  // this is a comparison.  It returns true
                             //echo "${keyList}"  // prints out katone
                             def filesmap = [:]
+                            println(keyList)
                             for (String key : keyList){
-                                filesmap['${key}'] = root.files."${key}"
+                                filesmap[key] = root.files."${key}"
+                                println(filesmap[key])
                             }
-                            println(filesmap)
+                            
                             //sh "echo ${jsonObj.age}"   // prints out 5
                             //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
-                            println(data)
+                            //println(data)
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                             //allure([
                             //    includeProperties: false,
