@@ -56,7 +56,7 @@ pipeline {
                             token = '${COMMKEY}'
                             //import groovy.json.JsonSlurper
                             hook = registerWebhook()
-                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${token}",
+                            def response = httpRequest url:'${JEN_TEST_URL}?token=${COMMKEY}',
                                 customHeaders:[
                                     [ name:'Returnurl', value:"${hook.getURL()}"],
                                     [ name:'Testurl', value:"${env.DEV_URL}"],
