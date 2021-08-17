@@ -62,10 +62,19 @@ pipeline {
                                     [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                                println("Status: "+response.status)
-                                data = waitForWebhook webhookToken:hook
-                                println(data)
-                                def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
+                            println("Status: "+response.status)
+                            data = waitForWebhook webhookToken:hook
+                            //sh "mkdir allure-results-QA"
+                            writeFile file: 'allure-results-QA', text: "${data}"
+                            println(data)
+                            def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
+                            allure([
+                                includeProperties: false,
+                                jdk: '',
+                                properties: [],
+                                reportBuildPolicy: 'ALWAYS',
+                                results: [[path: 'target/allure-results']]
+                            ])
                         }
                     }
                 )
