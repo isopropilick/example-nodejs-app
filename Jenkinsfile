@@ -52,6 +52,7 @@ pipeline {
                     },
                     b: {
                         script {
+                            import groovy.json.JsonSlurper
                             hook = registerWebhook()
                             def response = httpRequest url:"${env.JEN_TEST_URL}",
                                 customHeaders:[
@@ -66,12 +67,14 @@ pipeline {
                             data = waitForWebhook webhookToken:hook
                             //sh "rm -R allure-results"
                             //sh "mkdir allure-results"
-                            def props = readJSON text: data
+                            def root = new JsonSlurper().parseText(data)
                             def keyList = props['files'].keySet()  // this is a comparison.  It returns true
                             //echo "${keyList}"  // prints out katone
+                            def filesmap = [:]
                             for (String key : keyList){
-                                echo "${key}"
+                                filesmap['${key}'] = root.files."${key}".flatten()
                             }
+                            println(filesmap)
                             //sh "echo ${jsonObj.age}"   // prints out 5
                             //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             println(data)
