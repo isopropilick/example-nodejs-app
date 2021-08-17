@@ -23,8 +23,8 @@ pipeline {
                         echo "No running container for ${names[i]}."
                         }
                     }
-                    sh "docker builder prune -a -f"
-                    sh "docker system prune -a -f"
+                    //sh "docker builder prune -a -f"
+                    //sh "docker system prune -a -f"
                 }
             }
         }
