@@ -64,18 +64,22 @@ pipeline {
                                     httpMode: 'POST'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            sh "rm -R allure-results"
-                            sh "mkdir allure-results"
-                            writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
+                            //sh "rm -R allure-results"
+                            //sh "mkdir allure-results"
+                            def props = readJSON text: data
+                            def keyList = props['files'].keySet()  // this is a comparison.  It returns true
+                            echo "${keyList}"  // prints out katone
+                            //sh "echo ${jsonObj.age}"   // prints out 5
+                            //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             println(data)
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
-                            allure([
-                                includeProperties: false,
-                                jdk: '',
-                                properties: [],
-                                reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'allure-results']]
-                            ])
+                            //allure([
+                            //    includeProperties: false,
+                            //    jdk: '',
+                            //    properties: [],
+                            //    reportBuildPolicy: 'ALWAYS',
+                            //    results: [[path: 'allure-results']]
+                            //])
                         }
                     }
                 )
