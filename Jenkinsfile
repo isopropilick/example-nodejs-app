@@ -52,7 +52,7 @@ pipeline {
                     },
                     b: {
                         script {
-                            
+                            import groovy.json.JsonSlurper
                             hook = registerWebhook()
                             def response = httpRequest url:"${env.JEN_TEST_URL}",
                                 customHeaders:[
