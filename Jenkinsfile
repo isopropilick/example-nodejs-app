@@ -64,8 +64,8 @@ pipeline {
                                     [ name:'Buildid', value:"${env.BUILD_ID}"],
                                     [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
-                                    httpMode: 'POST',
-                                    authentication:'commtok'
+                                    httpMode: 'POST'
+                                    //authentication:'commtok'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
                             //sh "rm -f -R allure-results"
