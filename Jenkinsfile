@@ -65,21 +65,17 @@ pipeline {
                                         [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
                                     httpMode: 'POST'
-                            println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
                             def root = readJSON text: data
                             def keyList = root['files'].keySet()
                             def filesmap = [:]
-                            println(keyList)
                             for (String key : keyList){
                                 filesmap[key] = root.files."${key}"
-                                println(filesmap[key])
                                 writeJSON file: "allure-results/${key}", json:filesmap[key]
                             }
                             retry(3) {
                                 sleep 10
                                 def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
-                                println("${quit.status}")
                             }
                             timeout(time: 1, unit: 'MINUTES') {
                                 println("Pimed-out...")
