@@ -8,7 +8,7 @@ pipeline {
             QA_PORT = '8182'
             STAGE_PORT   = '8183'
             JEN_TEST_URL= 'http://localhost:8080/jenkins/generic-webhook-trigger/invoke'
-            //COMMKEY = credentials('commtok')
+            COMMKEY = credentials('commtok')
         }
     stages {
         stage('Clean env') {
@@ -55,7 +55,7 @@ pipeline {
                         script {
                             //import groovy.json.JsonSlurper
                             hook = registerWebhook()
-                            def response = httpRequest url:"${env.JEN_TEST_URL}",
+                            def response = httpRequest url:"${env.JEN_TEST_URL}?token=${env.COMMKEY}",
                                 customHeaders:[
                                     [ name:'Returnurl', value:"${hook.getURL()}"],
                                     [ name:'Testurl', value:"${env.DEV_URL}"],
