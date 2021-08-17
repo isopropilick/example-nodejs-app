@@ -68,7 +68,7 @@ pipeline {
                             //sh "rm -R allure-results"
                             //sh "mkdir allure-results"
                             def root = readJSON text: data
-                            def keyList = props['files'].keySet()  // this is a comparison.  It returns true
+                            def keyList = root['files'].keySet()  // this is a comparison.  It returns true
                             //echo "${keyList}"  // prints out katone
                             def filesmap = [:]
                             for (String key : keyList){
