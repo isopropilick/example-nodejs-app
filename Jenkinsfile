@@ -7,7 +7,8 @@ pipeline {
             DEV_PORT    = '8181'
             QA_PORT = '8182'
             STAGE_PORT   = '8183'
-            JEN_TEST_URL= 'http://api.octanewolf.services/jen'
+            JEN_TEST_URL= 'http://localhost:8080/jenkins/generic-webhook-trigger/invoke'
+            COMMKEY = credentials('commtok')
         }
     stages {
         stage('Clean env') {
@@ -62,7 +63,8 @@ pipeline {
                                     [ name:'Buildid', value:"${env.BUILD_ID}"],
                                     [ name:'Buildnumber', value:"${env.BUILD_NUMBER}"]
                                     ],
-                                    httpMode: 'POST'
+                                    httpMode: 'POST',
+                                    authentication:"${env.COMMKEY}"
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
                             sh "rm -f -R allure-results"
