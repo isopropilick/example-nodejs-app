@@ -92,7 +92,7 @@ pipeline {
                                     if(quit.status=="200"){
                                         success = true
                                     }
-                                } catch (SomeException e) {
+                                } catch (Exception e) {
                                     if (retries < 6) {
                                         continue;
                                     } else {
