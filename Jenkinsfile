@@ -64,9 +64,9 @@ pipeline {
                                     httpMode: 'POST'
                             println("Status: "+response.status)
                             data = waitForWebhook webhookToken:hook
-                            sh "rm allure-results-QA"
-                            sh "mkdir allure-results-QA"
-                            writeFile file: 'allure-results-QA/allure-results', text: "${data}"
+                            sh "rm -R allure-results-QA"
+                            sh "mkdir allure-results"
+                            writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             println(data)
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                             allure([
@@ -74,7 +74,7 @@ pipeline {
                                 jdk: '',
                                 properties: [],
                                 reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'target/allure-results-QA']]
+                                results: [[path: 'allure-results']]
                             ])
                         }
                     }
