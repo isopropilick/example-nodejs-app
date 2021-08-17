@@ -80,6 +80,8 @@ pipeline {
                             //sh "echo ${jsonObj.age}"   // prints out 5
                             //writeFile file: 'allure-results/TEST-DEV.test.xml', text: "${data}"
                             //println(data)
+                            sh "ls allure-results"
+                            archiveArtifacts artifacts: 'allure-results/*'
                             def quit = httpRequest url:"${env.DEV_URL}/quit", httpMode: 'POST'
                             allure([
                                 includeProperties: false,
